@@ -152,7 +152,7 @@
       <li><a href="#pretraining">Safety at pretraining</a></li>
       <li><a href="#method">Pristine Attention</a></li>
       <li><a href="#imagenet">ImageNet</a></li>
-      <li><a href="#scope">What this does and does not do</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
       <li><a href="#cite">Citation</a></li>
       <li><a href="#references">References</a></li>
     </ol>
@@ -332,11 +332,9 @@
         </figure>
       </section>
 
-      <section id="scope">
-        <h2>What this does and does not do</h2>
-        <p>Pristine is a pretraining-time tool for restricted concepts you know about in advance. It does not replace post-hoc unlearning or inference-time guardrails, which are still needed when new restrictions emerge and for harmful generations at deployment.</p>
-        <p>Suppression is strong but not perfect. On CC12M, Pristine still generates a requested restricted concept on 13.29% of restricted prompts, compared with 5.87% for a model that never saw the data. Pristine also has more parameters than the Safe baseline; a compute-equalized comparison in the appendix shows this does not change the findings.</p>
-        <p>As with other safety mechanisms, describing this design may give bad actors insight into building countermeasures.</p>
+      <section id="conclusion">
+        <h2>Conclusion</h2>
+        <p>The Pristine Model shows promise when scaling to CC12M. There is still room for further research in achieving the best of both worlds between the Safe and Full models, while developing safe systems with high generation quality.</p>
       </section>
 
       <section id="cite">
