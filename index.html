@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--
+    Security note: GitHub Pages cannot send custom HTTP headers, so the policy is set with a meta tag.
+    Everything is self-hosted (no CDN scripts or fonts), so 'self' is all we need.
+    frame-ancestors cannot be set from a meta tag; GitHub Pages cannot enforce it.
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>Pristine Models</title>
+  <meta name="description" content="Pristine Models compartmentalize unsafe concept knowledge during pretraining so it can be detached at inference, keeping image quality while suppressing restricted concepts.">
+  <meta property="og:title" content="Pristine Models">
+  <meta property="og:description" content="Pretrain on unsafe data, keep what is useful, detach the rest.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/teaser.webp">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the article</a>
+
+<header class="masthead">
+  <h1>Pristine Models</h1>
+  <p class="subtitle">Pretrain on unsafe data, keep what is useful, and detach the rest at inference.</p>
+
+  <ul class="authors">
+    <li><a href="https://anisundar18.github.io/" target="_blank" rel="noopener noreferrer">Anirudh Sundara Rajan</a><sup>1*†</sup></li>
+    <li><a href="https://krsingh.cs.ucdavis.edu/" target="_blank" rel="noopener noreferrer">Krishna Kumar Singh</a><sup>2</sup></li>
+    <li><a href="https://richzhang.github.io/" target="_blank" rel="noopener noreferrer">Richard Zhang</a><sup>2</sup></li>
+    <li><a href="https://pages.cs.wisc.edu/~yongjaelee/" target="_blank" rel="noopener noreferrer">Yong Jae Lee</a><sup>2*</sup></li>
+  </ul>
+  <ul class="affiliations">
+    <li><sup>1</sup><img class="logo" src="assets/img/logos/uwmadison-logo.png" width="388" height="130" alt="University of Wisconsin–Madison"></li>
+    <li><sup>2</sup><img class="logo" src="assets/img/logos/adobe-logo.png" width="455" height="119" alt="Adobe Research"></li>
+  </ul>
+  <p class="notes">*Equal contribution. †Work done during an internship at Adobe Research.</p>
+
+  <ul class="links">
+    <li>
+      <a class="btn" data-link="paper">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h6"/></svg>
+        <span>Paper</span>
+      </a>
+    </li>
+    <li>
+      <a class="btn" data-link="code">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M14 4l-4 16"/></svg>
+        <span>Code</span>
+      </a>
+    </li>
+    <li>
+      <a class="btn" href="#cite">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v6H5V9a2 2 0 0 1 2-2z"/><path d="M15 7h4v6h-6V9a2 2 0 0 1 2-2z"/></svg>
+        <span>BibTeX</span>
+      </a>
+    </li>
+  </ul>
+</header>
+
+<section class="opener" aria-label="Teaser and CC12M generations">
+  <figure class="card opener-video">
+    <p class="eyebrow">Overview</p>
+    <h2 class="card-title">Pristine Models in &lt; 4 min</h2>
+    <div class="video-frame" id="teaser-frame">
+      <video controls playsinline muted loop preload="metadata" poster="assets/img/teaser.webp">
+        <source src="trailer.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+      </video>
+    </div>
+    <div class="tldr-inline" role="group" aria-labelledby="tldr-h">
+      <h3 id="tldr-h">TL;DR</h3>
+      <ul>
+        <li class="dot-unsafe"><strong>Train on all data:</strong> high quality, but the model can generate unsafe content.</li>
+        <li class="dot-safe"><strong>Train on safe data only:</strong> safe, but lower quality.</li>
+        <li class="dot-pristine"><strong>Pristine Models</strong> keep the unsafe knowledge in a detachable branch: no unsafe concepts, and quality close to training on everything.</li>
+      </ul>
+    </div>
+  </figure>
+
+  <figure class="card opener-panel">
+    <p class="eyebrow">Results</p>
+    <h2 class="card-title">No unsafe concepts, high-quality images</h2>
+    <div class="qual">
+      <div class="qual-col unsafe">
+        <h3>Left: unsafe prompts</h3>
+        <p class="qual-sub">Pristine does not generate the unsafe concept.</p>
+        <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
+
+        <div class="qual-row">
+          <img src="assets/img/cc12m-pistol-safe.jpg" width="640" height="640" alt="Safe model output for a pistol on a mossy rock." loading="lazy">
+          <img src="assets/img/cc12m-pistol-full.jpg" width="640" height="640" alt="Full model output for a pistol on a mossy rock." loading="lazy">
+          <img src="assets/img/cc12m-pistol-pristine.jpg" width="640" height="640" alt="Pristine output for a pistol on a mossy rock." loading="lazy">
+          <p>Tight medium shot of a <strong>pistol</strong> placed on a mossy rock, dappled sunlight filtering, …</p>
+        </div>
+        <div class="qual-row">
+          <img src="assets/img/cc12m-mickeymouse-safe.jpg" width="640" height="640" alt="Safe model output for Mickey Mouse on a park bench." loading="lazy">
+          <img src="assets/img/cc12m-mickeymouse-full.jpg" width="640" height="640" alt="Full model output for Mickey Mouse on a park bench." loading="lazy">
+          <img src="assets/img/cc12m-mickeymouse-pristine.jpg" width="640" height="640" alt="Pristine output for Mickey Mouse on a park bench." loading="lazy">
+          <p>Close-up portrait of <strong>Mickey Mouse</strong> sitting on a weathered wooden park bench, soft overcast …</p>
+        </div>
+        <div class="qual-row">
+          <img src="assets/img/cc12m-winnie-safe.jpg" width="640" height="640" alt="Safe model output for Winnie the Pooh on a woodland path." loading="lazy">
+          <img src="assets/img/cc12m-winnie-full.jpg" width="640" height="640" alt="Full model output for Winnie the Pooh on a woodland path." loading="lazy">
+          <img src="assets/img/cc12m-winnie-pristine.jpg" width="640" height="640" alt="Pristine output for Winnie the Pooh on a woodland path." loading="lazy">
+          <p>Close-up portrait of <strong>Winnie the Pooh</strong> standing on a quiet woodland path, warm golden light …</p>
+        </div>
+      </div>
+
+      <div class="qual-col safe">
+        <h3>Right: safe prompts</h3>
+        <p class="qual-sub">Pristine keeps quality close to Full, better than Safe.</p>
+        <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
+
+        <div class="qual-row">
+          <img src="assets/img/cc12m-blackboard-safe.jpg" width="640" height="640" alt="Safe model output for a blackboard next to a whiteboard." loading="lazy">
+          <img src="assets/img/cc12m-blackboard-full.jpg" width="640" height="640" alt="Full model output for a blackboard next to a whiteboard." loading="lazy">
+          <img src="assets/img/cc12m-blackboard-pristine.jpg" width="640" height="640" alt="Pristine output for a blackboard next to a whiteboard." loading="lazy">
+          <p>In a dimly lit room, a stark black <strong>blackboard</strong> and a pristine white <strong>whiteboard</strong> are mounted next to each other …</p>
+        </div>
+        <div class="qual-row">
+          <img src="assets/img/cc12m-foxbear-safe.jpg" width="640" height="640" alt="Safe model output for two teddy bears and a plush fox." loading="lazy">
+          <img src="assets/img/cc12m-foxbear-full.jpg" width="640" height="640" alt="Full model output for two teddy bears and a plush fox." loading="lazy">
+          <img src="assets/img/cc12m-foxbear-pristine.jpg" width="640" height="640" alt="Pristine output for two teddy bears and a plush fox." loading="lazy">
+          <p>In the gentle light of the early morning, three red stuffed animals, <strong>two teddy bears and a plush fox</strong>, …</p>
+        </div>
+        <div class="qual-row">
+          <img src="assets/img/cc12m-spacecat-safe.jpg" width="640" height="640" alt="Safe model output for a cat with a bubble helmet." loading="lazy">
+          <img src="assets/img/cc12m-spacecat-full.jpg" width="640" height="640" alt="Full model output for a cat with a bubble helmet." loading="lazy">
+          <img src="assets/img/cc12m-spacecat-pristine.jpg" width="640" height="640" alt="Pristine output for a cat with a bubble helmet." loading="lazy">
+          <p>The cat, as if in the throes of space, is portrayed with a <strong>transparent, gleaming bubble encasing its head like an astronaut’s helmet</strong> …</p>
+        </div>
+      </div>
+    </div>
+    <figcaption>Prompts are truncated for readability.</figcaption>
+  </figure>
+</section>
+
+<div class="page">
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#motivation">Motivation</a></li>
+      <li><a href="#pretraining">Safety at pretraining</a></li>
+      <li><a href="#method">Pristine Attention</a></li>
+      <li><a href="#imagenet">ImageNet</a></li>
+      <li><a href="#scope">What this does and does not do</a></li>
+      <li><a href="#cite">Citation</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <article>
+
+      <section id="motivation">
+        <h2>More data, better models. But at what cost?</h2>
+        <p>Train an image generation model on more data and it gets better at generating images. But that quality comes at a cost: the internet is full of concepts that bad actors can exploit to spread misinformation, infringe copyright, or produce violent content. A model that has seen these concepts can reproduce them when people use it.</p>
+
+        <h3>So why not just delete the unsafe images?</h3>
+        <p>Take a look at this photo.</p>
+
+        <figure class="fig blend">
+          <img src="assets/img/concept.webp" width="1321" height="565" alt="A photo containing a firearm, annotated to show that lighting, shadows, camera angle and object interactions in the image are safe and useful even though the firearm is not." loading="lazy">
+          <figcaption><strong>An image is rarely unsafe in its entirety.</strong> This photo is “unsafe” because of the gun. Everything else in it, such as the lighting, the shadows, the camera angle, and how objects sit next to each other, is harmless and useful.</figcaption>
+        </figure>
+
+        <p>The only problem here is the gun. The rest of the photo shows the model how light falls, how shadows look, and how objects fit together in the real world. Deleting the whole image throws all of that away, and the model’s understanding of the visual world is impaired.</p>
+        <p class="callout"><strong>Goal:</strong> leverage the whole dataset and learn everything except the unsafe concepts.</p>
+
+        <h3>Given an unsafe model, what can we do?</h3>
+        <p>Discarding the unsafe images is off the table, since we don't want to lose the quality they carry. So suppose we have a model that has already learned from everything. What can we do after the fact?</p>
+        <div class="option">
+          <h4>Option 1: Filter the outputs</h4>
+          <p>Leave the model as it is and check every image after it is generated, discarding the unsafe ones. In practice this gets expensive, because the model has to keep regenerating until something passes. And the filter is not perfect: every miss lets an unsafe image through.</p>
+        </div>
+        <div class="option">
+          <h4>Option 2: Unlearning</h4>
+          <p>Edit the model’s weights, the numbers inside the neural network, so that it “forgets” a concept <a class="cite" href="#ref-cao2015">(Cao &amp; Yang, 2015)</a>. This works for a handful of concepts <a class="cite" href="#ref-kumari2023">(Kumari et al., 2023)</a> <a class="cite" href="#ref-gandikota2023">(Gandikota et al., 2023)</a>, but is much harder to scale to many <a class="cite" href="#ref-deng2026">(Deng et al., 2026)</a> <a class="cite" href="#ref-li2026">(Li et al., 2026)</a> <a class="cite" href="#ref-gandikota2024">(Gandikota et al., 2024)</a>.</p>
+          <p>The reason is that a network rarely stores a concept in one tidy place. There is usually no single neuron responsible for “gun”. Instead, each neuron helps with many unrelated concepts, a property called <em>polysemanticity</em> <a class="cite" href="#ref-elhage2022">(Elhage et al., 2022)</a>, so the unsafe concept ends up intertwined with plenty of safe ones. Editing it out also damages those safe concepts, and the more concepts we remove, the more the model loses. This is known as <em>catastrophic forgetting</em> <a class="cite" href="#ref-mccloskey1989">(McCloskey &amp; Cohen, 1989)</a>.</p>
+        </div>
+      </section>
+
+      <section id="pretraining">
+        <h2>Safety at pretraining time</h2>
+        <p>Ideally, we would find the parts of the network responsible for an unsafe concept and switch them off. As we just saw, that is hard: in a trained network those parts are spread out and tangled with everything else. So instead of searching for them after the fact, why not <em>train</em> the network to put them somewhere we can find?</p>
+
+        <div class="core-idea">
+          <p class="eyebrow">Core idea</p>
+          <p class="core-text">Treat it as a <strong>pretraining</strong> problem, not a post-hoc one. Train on safe <em>and</em> unsafe data, but keep the unsafe knowledge in a <strong>separate component you can detach</strong>.</p>
+        </div>
+
+        <p>This does not replace post-hoc methods; it complements them. Many unsafe concepts are known before training even starts, while others only come up after deployment.</p>
+        <div class="when-grid">
+          <div class="when when-pre">
+            <p class="when-label">Known at training time</p>
+            <p>Copyrighted characters, weapons, …</p>
+            <p class="when-tool">→ Pristine Models</p>
+          </div>
+          <div class="when when-post">
+            <p class="when-label">Emerges after deployment</p>
+            <p>New restrictions</p>
+            <p class="when-tool">→ Post-hoc unlearning</p>
+          </div>
+        </div>
+
+        <p>The figure below illustrates exactly this goal.</p>
+
+        <figure class="fig">
+          <img src="assets/img/teaser.webp" width="1800" height="1176" alt="Three panels. The Full Model, trained on safe and unsafe data, generates a restricted cartoon character and a well-wrapped gift. The Safe Model avoids the character but wraps the gift poorly. The Pristine Model generates a safe character and a well-wrapped gift, with a detachable unsafe branch." loading="lazy">
+          <figcaption><strong>Goal.</strong> The Full Model generates high-quality images but can reproduce restricted concepts. The Safe Model avoids them at the cost of useful visual knowledge, here visible in the incorrect gift-wrap placement. Pristine aims to keep the useful information and isolate the restricted concept in a detachable branch.</figcaption>
+        </figure>
+
+        <p>Here, “knowledge” means the ability to reproduce the restricted concept as a whole. For Batman, that is the recognizable combination of mask, cape, and suit, not each feature on its own. The target is a model that keeps the shared knowledge (geometry, composition, lighting) and confines the concept-specific part to a component we can detach.</p>
+      </section>
+
+      <section id="method">
+        <h2>Pristine Attention</h2>
+        <p>It comes down to controlling where information goes. From every unsafe example, we want two things:</p>
+
+        <div class="core-idea">
+          <p class="eyebrow">What we want from every unsafe example</p>
+          <ol class="core-list">
+            <li><strong>Separate.</strong> Learn the unsafe concept in its own module, apart from everything else in the image, so we can detach it at inference and the model can no longer generate that concept.</li>
+            <li><strong>Useful.</strong> Learning the rest is not enough. It has to help the model generate <em>safe</em> content, even once the unsafe module is gone.</li>
+          </ol>
+        </div>
+
+        <p>Pristine Attention gets these separate modules from the attention layers, which are where words in the prompt get tied to parts of the image. It replaces each attention layer with three parallel copies, which we call <strong>branches</strong>: a <strong>safe</strong> branch, an <span class="unsafe-t">unsafe</span> branch, and a <strong>shared</strong> branch. Each branch has its own weights and reads its own text, and their outputs are added together.</p>
+
+        <p>The branches are trained to separate restricted concept information from knowledge we want to retain. On unsafe examples, the unsafe branch receives the restricted concept while the shared branch receives the remaining description. Safe examples use a matching split between the safe and shared branches, encouraging the shared knowledge learned from unsafe examples to remain useful with the safe branch after the unsafe branch is removed.</p>
+
+        <p>To illustrate, we start with object-centric, ImageNet-like data. There is a finite set of central concepts (a rifle, a Chihuahua), some of them unsafe, and each image shows one of them with its attributes (color, material, pose) in a scene (sand, grass). Open-world data like CC12M is covered at the end of this section.</p>
+
+        <h3>Split the prompt</h3>
+        <p>We control what each module learns by controlling what it reads. Each branch gets its own prompt, containing only the information it is responsible for. An LLM splits every training prompt in two: the concept goes to a detachable <span class="unsafe-t">unsafe</span> branch, and everything else goes to a <strong>shared</strong> branch.</p>
+
+        <div class="decomp single" role="group" aria-label="Prompt decomposition for an unsafe example">
+          <div class="u">
+            <h4>Unsafe example</h4>
+            <dl>
+              <dt>Original prompt</dt><dd>A dark assault rifle resting on sand.</dd>
+              <dt>Unsafe branch</dt><dd>An assault rifle.</dd>
+              <dt>Shared branch</dt><dd>A dark object resting on sand.</dd>
+            </dl>
+          </div>
+        </div>
+
+        <p>Together the two prompts still describe the whole image, but each branch can only account for its own part. So the unsafe branch is pushed to take responsibility for the rifle, and the shared branch for a dark object resting on sand. That covers <em>separate</em>.</p>
+
+        <h3>Make it useful: add a safe branch</h3>
+        <p>In the rifle example, the shared branch learns attributes and setting: the color of an object and what it rests on. For that knowledge to be <em>useful</em>, the shared branch should play the same role when generating safe content. So we split safe prompts the same way, sending the identity to its own <span class="safe-t">safe</span> branch and the attributes and setting to the shared branch:</p>
+
+        <div class="decomp single" role="group" aria-label="Prompt decomposition for a safe example">
+          <div class="s">
+            <h4>Safe example</h4>
+            <dl>
+              <dt>Original prompt</dt><dd>A brown Chihuahua standing on grass.</dd>
+              <dt>Safe branch</dt><dd>A Chihuahua.</dd>
+              <dt>Shared branch</dt><dd>A brown object standing on grass.</dd>
+            </dl>
+          </div>
+        </div>
+
+        <p>Now the shared branch has one job on every image, safe or unsafe: attributes and setting, never identity. So what it picks up from the rifle, like a dark finish, can be applied to a Chihuahua even after the unsafe branch is removed.</p>
+
+        <h3>How it flows</h3>
+        <figure class="fig blend">
+          <img src="assets/img/pristine-cross.webp" width="1920" height="1222" alt="Diagram of Pristine Cross Attention: shared, safe, and unsafe branches each attend from the spatial tokens to their own text with their own weights. A mode switch activates either the safe or unsafe branch alongside the shared branch, and their outputs are added token by token to produce updated spatial tokens." loading="lazy">
+          <figcaption><strong>Pristine Cross Attention.</strong> Each branch attends from the spatial tokens to its own text with its own weights. Safe mode runs the safe and shared branches; unsafe mode runs the unsafe and shared branches. Their outputs are added token by token, so removing the unsafe branch leaves safe mode intact.</figcaption>
+        </figure>
+
+        <p>Inside an attention layer, the image being generated is a grid of <em>spatial tokens</em> <var>x</var>, and the prompt is a sequence of <em>text tokens</em> <var>t</var>. With weights <var>W</var>, attention updates both:</p>
+
+        <div class="eq" role="math" aria-label="delta t and delta x equal Attn of t, x, and W">
+          (Δ<var>t</var>, Δ<var>x</var>) = Attn(<var>t</var>, <var>x</var>; <var>W</var>)
+        </div>
+
+        <p>In MM-DiT-style self-attention, the text tokens are updated too. In cross-attention, the text is only read, so (0, Δ<var>x</var>) = Attn(<var>t</var>, <var>x</var>; <var>W</var>). The diagram shows the cross-attention case for simplicity, but the equations below cover both.</p>
+
+        <p>Pristine runs this once per branch, each with its own text and its own weights. The shared branch is always on, and exactly one mode-specific branch is active: <span class="safe-t">safe</span> for safe examples, <span class="unsafe-t">unsafe</span> otherwise.</p>
+
+        <div class="eq sm" role="math" aria-label="delta t shared and delta x shared equal Attn of t shared, x, W shared; delta t mode and delta x mode equal Attn of t mode, x, W mode">
+          (Δ<var>t</var><sub>shared</sub>, Δ<var>x</var><sub>shared</sub>) = Attn(<var>t</var><sub>shared</sub>, <var>x</var>; <var>W</var><sub>shared</sub>), &emsp; (Δ<var>t</var><sub>mode</sub>, Δ<var>x</var><sub>mode</sub>) = Attn(<var>t</var><sub>mode</sub>, <var>x</var>; <var>W</var><sub>mode</sub>)
+        </div>
+
+        <p>Each branch’s text is updated independently:</p>
+
+        <div class="eq" role="math" aria-label="t shared is updated to t shared plus delta t shared; t mode is updated to t mode plus delta t mode">
+          <var>t</var><sub>shared</sub> ← <var>t</var><sub>shared</sub> + Δ<var>t</var><sub>shared</sub>, &emsp; <var>t</var><sub>mode</sub> ← <var>t</var><sub>mode</sub> + Δ<var>t</var><sub>mode</sub>
+        </div>
+
+        <p>Their spatial updates are added together:</p>
+
+        <div class="eq" role="math" aria-label="x is updated to x plus delta x shared plus delta x mode">
+          <var>x</var> ← <var>x</var> + Δ<var>x</var><sub>shared</sub> + Δ<var>x</var><sub>mode</sub>
+        </div>
+
+        <p>Safe examples train the shared and safe branches; unsafe examples train the shared and unsafe branches. Each prompt is embedded separately and each branch has its own weights, so the shared branch never sees an identity, not even through the text encoder.</p>
+
+        <p>That is what makes the unsafe branch detachable. It is the only place the model ever linked “assault rifle” to the image, so deleting <var>W</var><sub>unsafe</sub> removes that link. Nothing else has to change: the safe and shared branches were always trained together on safe examples, so safe mode runs exactly as it did during training. The shared branch also saw every unsafe image in the same role it plays on safe ones, so what it learned there, like a dark finish or a sandy scene, remains available to safe concepts. The rest of the network and the training loss are unchanged.</p>
+
+        <p class="note"><strong>Beyond object-centric data.</strong> In open-world data such as CC12M there is no single central concept: once the unsafe concept is removed, the shared prompt still describes nearly the whole scene. There, safe examples go through the shared branch alone and need no splitting, while unsafe examples use the shared and unsafe branches.</p>
+      </section>
+
+      <section id="imagenet">
+        <h2>ImageNet</h2>
+        <p>We test Pristine on ImageNet, treating canine classes (dogs, foxes, and wolves) as <span class="safe-t">safe</span> and every other class as <span class="unsafe-t">unsafe</span>. Quantitative results, baselines, and the full evaluation are in the paper.</p>
+
+        <h3>Disentangled concepts</h3>
+        <p>Pristine learns concepts in a disentangled way: the mode branch learns which object it is, and the shared branch learns everything else. So the model generates according to which branch is attached. With the safe branch, a gray fox comes out as a gray fox, while a garbage truck does not appear. With the unsafe branch, the pattern flips.</p>
+
+        <figure class="fig blend">
+          <img src="assets/img/imagenet-branches.webp" width="1280" height="933" alt="Generations for a safe prompt (gray fox) and an unsafe prompt (garbage truck) from the Full baseline, Safe baseline, Pristine with the safe branch, and Pristine with the unsafe branch." loading="lazy">
+          <figcaption>Given a safe prompt (gray fox), the safe branch succeeds and the unsafe branch fails. On an unsafe prompt (garbage truck) the pattern reverses, which is the intended behavior.</figcaption>
+        </figure>
+
+        <h3>Bronze and algae dogs</h3>
+        <p>The shared branch is there so that attributes learned from unsafe images stay usable on safe concepts. Bronze and algae appear mostly on unsafe classes and rarely on dogs. With the unsafe branch detached, Pristine still draws a bronze Chihuahua or an algae-covered German Shepherd far more faithfully than a model trained only on safe data.</p>
+
+        <figure class="fig blend">
+          <img src="assets/img/composition.webp" width="1717" height="442" alt="Dogs made of bronze (a Chihuahua) and algae (a German Shepherd) generated by the Safe model, Pristine with the safe branch, and the Full model." loading="lazy">
+          <figcaption><strong>Compositional generation.</strong> Bronze and algae are rare on safe dogs but common among unsafe classes. Pristine renders them far more faithfully than Safe and comparably to Full.</figcaption>
+        </figure>
+      </section>
+
+      <section id="scope">
+        <h2>What this does and does not do</h2>
+        <p>Pristine is a pretraining-time tool for restricted concepts you know about in advance. It does not replace post-hoc unlearning or inference-time guardrails, which are still needed when new restrictions emerge and for harmful generations at deployment.</p>
+        <p>Suppression is strong but not perfect. On CC12M, Pristine still generates a requested restricted concept on 13.29% of restricted prompts, compared with 5.87% for a model that never saw the data. Pristine also has more parameters than the Safe baseline; a compute-equalized comparison in the appendix shows this does not change the findings.</p>
+        <p>As with other safety mechanisms, describing this design may give bad actors insight into building countermeasures.</p>
+      </section>
+
+      <section id="cite">
+        <h2>Citation</h2>
+        <pre class="bibtex" id="bibtex-text">@article{sundararajan2026pristine,
+  title   = {Pristine Models},
+  author  = {Sundara Rajan, Anirudh and Singh, Krishna Kumar and Zhang, Richard and Lee, Yong Jae},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+        <div class="copy-row">
+          <button class="btn" id="copy-bibtex" type="button">Copy BibTeX</button>
+          <span id="copy-status" role="status"></span>
+        </div>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ol class="refs">
+          <li id="ref-cao2015">Y. Cao and J. Yang. Towards making systems forget with machine unlearning. <em>IEEE Symposium on Security and Privacy</em>, 2015.</li>
+          <li id="ref-kumari2023">N. Kumari, B. Zhang, S.-Y. Wang, E. Shechtman, R. Zhang, and J.-Y. Zhu. Ablating concepts in text-to-image diffusion models. <em>ICCV</em>, 2023.</li>
+          <li id="ref-gandikota2023">R. Gandikota, J. Materzynska, J. Fiotto-Kaufman, and D. Bau. Erasing concepts from diffusion models. <em>ICCV</em>, 2023.</li>
+          <li id="ref-gandikota2024">R. Gandikota, H. Orgad, Y. Belinkov, J. Materzyńska, and D. Bau. Unified concept editing in diffusion models. <em>WACV</em>, 2024.</li>
+          <li id="ref-deng2026">K. Deng, G. Li, Y. Xiao, B. Hui, and X. Ma. Forget many, forget right: Scalable and precise concept unlearning in diffusion models. <em>arXiv:2601.06162</em>, 2026.</li>
+          <li id="ref-li2026">O. Li, Y. Wang, X. Hu, H. Jiang, Y. Hao, J. Ma, F. Feng, et al. SPEED: Scalable, precise, and efficient concept erasure for diffusion models. <em>ICLR</em>, 2026.</li>
+          <li id="ref-elhage2022">N. Elhage, T. Hume, C. Olsson, N. Schiefer, T. Henighan, S. Kravec, et al. Toy models of superposition. <em>arXiv:2209.10652</em>, 2022.</li>
+          <li id="ref-mccloskey1989">M. McCloskey and N. J. Cohen. Catastrophic interference in connectionist networks: The sequential learning problem. <em>Psychology of Learning and Motivation</em>, 24, 1989.</li>
+        </ol>
+      </section>
+
+    </article>
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    <p>Pristine Models, University of Wisconsin–Madison and Adobe Research. Figures and results are from the paper.</p>
+  </div>
+</footer>
+</body>
+</html>
