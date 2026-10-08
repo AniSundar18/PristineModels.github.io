@@ -195,7 +195,7 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .results-more .qual { grid-template-rows: repeat(7, auto); }
 .results-more .qual-col { grid-row: span 7; }
 .results-more .qual-row { margin-bottom: 8px; }
-.results-more .qual-row p { font-size: 0.6rem; line-height: 1.28; }
+.results-more .qual-row p { font-size: 0.66rem; line-height: 1.34; }
 
 /* ---------- Page grid ---------- */
 
