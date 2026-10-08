@@ -93,8 +93,8 @@
         <h2 class="card-title">No unsafe concepts, high-quality images</h2>
       </div>
       <div class="result-tabs" role="tablist" aria-label="Result examples">
-        <button class="result-tab" id="result-tab-core" type="button" role="tab" aria-selected="true" aria-controls="results-core" data-result-tab="core">Core</button>
-        <button class="result-tab" id="result-tab-more" type="button" role="tab" aria-selected="false" aria-controls="results-more" data-result-tab="more">More</button>
+        <button class="result-tab" id="result-tab-core" type="button" role="tab" aria-selected="true" aria-controls="results-core" data-result-tab="core">Page 1</button>
+        <button class="result-tab" id="result-tab-more" type="button" role="tab" aria-selected="false" aria-controls="results-more" data-result-tab="more">Page 2</button>
       </div>
     </div>
 
@@ -102,7 +102,7 @@
       <div class="qual">
         <div class="qual-col unsafe">
           <h3>Left: unsafe prompts</h3>
-          <p class="qual-sub">Pristine does not generate the unsafe concept.</p>
+          <p class="qual-sub">Full reproduces the bolded unsafe concept. Pristine avoids it.</p>
           <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
 
           <div class="qual-row">
@@ -127,7 +127,7 @@
 
         <div class="qual-col safe">
           <h3>Right: safe prompts</h3>
-          <p class="qual-sub">Pristine keeps quality close to Full, better than Safe.</p>
+          <p class="qual-sub">Pristine keeps the bolded details that Safe often loses.</p>
           <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
 
           <div class="qual-row">
@@ -205,7 +205,7 @@
           </div>
         </div>
       </div>
-      <p class="result-note">Additional CC12M examples. Prompts are truncated for readability.</p>
+      <p class="result-note">Prompts are truncated for readability.</p>
     </div>
   </figure>
 </section>
