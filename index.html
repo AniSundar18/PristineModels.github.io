@@ -144,6 +144,104 @@
   </figure>
 </section>
 
+<section class="more-qual" aria-labelledby="more-qual-title">
+  <div class="more-qual-head">
+    <p class="eyebrow">More qualitative examples</p>
+    <h2 id="more-qual-title">Restricted concepts disappear, safe details stay.</h2>
+    <p>Across both restricted and ordinary prompts, Pristine aims for the same balance: remove what should not be generated while keeping the visual knowledge that makes images faithful and high quality.</p>
+  </div>
+
+  <div class="qual-strip qual-strip-unsafe">
+    <div class="qual-strip-head">
+      <h3>Restricted prompts</h3>
+      <p>Full often reproduces the requested restricted concept. Pristine suppresses the concept while preserving scene structure, style, and context.</p>
+    </div>
+    <div class="qual-examples">
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/great-wave-safe.webp" width="512" height="512" alt="Safe output for a Great Wave prompt." loading="lazy">
+          <img src="assets/img/qualitative/great-wave-full.webp" width="512" height="512" alt="Full model output reproducing The Great Wave." loading="lazy">
+          <img src="assets/img/qualitative/great-wave-pristine.webp" width="512" height="512" alt="Pristine output for a Great Wave prompt." loading="lazy">
+        </div>
+        <figcaption><strong>The Great Wave</strong><span>Pristine avoids the recognizable artwork while keeping a dramatic wave scene.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/sonic-safe.webp" width="512" height="512" alt="Safe output for a Sonic the Hedgehog prompt." loading="lazy">
+          <img src="assets/img/qualitative/sonic-full.webp" width="512" height="512" alt="Full model output reproducing Sonic the Hedgehog." loading="lazy">
+          <img src="assets/img/qualitative/sonic-pristine.webp" width="512" height="512" alt="Pristine output for a Sonic the Hedgehog prompt." loading="lazy">
+        </div>
+        <figcaption><strong>Sonic the Hedgehog</strong><span>Full generates the character; Pristine keeps the snowy setting without Sonic.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/pikachu-safe.webp" width="512" height="512" alt="Safe output for a Pikachu prompt." loading="lazy">
+          <img src="assets/img/qualitative/pikachu-full.webp" width="512" height="512" alt="Full model output reproducing Pikachu." loading="lazy">
+          <img src="assets/img/qualitative/pikachu-pristine.webp" width="512" height="512" alt="Pristine output for a Pikachu prompt." loading="lazy">
+        </div>
+        <figcaption><strong>Pikachu</strong><span>Pristine replaces the restricted character while retaining the forest-log composition.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/pistol-safe.webp" width="512" height="512" alt="Safe output for a pistol prompt." loading="lazy">
+          <img src="assets/img/qualitative/pistol-full.webp" width="512" height="512" alt="Full model output generating a pistol." loading="lazy">
+          <img src="assets/img/qualitative/pistol-pristine.webp" width="512" height="512" alt="Pristine output for a pistol prompt." loading="lazy">
+        </div>
+        <figcaption><strong>Pistol</strong><span>Pristine removes the weapon but keeps the cold window-side lighting and framing.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="qual-strip qual-strip-safe">
+    <div class="qual-strip-head">
+      <h3>Safe prompts</h3>
+      <p>When the prompt is safe, Pristine recovers details that the Safe-only model often loses.</p>
+    </div>
+    <div class="qual-examples">
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/brownie-safe.webp" width="512" height="512" alt="Safe output for layered brownies with green mint frosting." loading="lazy">
+          <img src="assets/img/qualitative/brownie-full.webp" width="512" height="512" alt="Full model output for layered brownies with green mint frosting." loading="lazy">
+          <img src="assets/img/qualitative/brownie-pristine.webp" width="512" height="512" alt="Pristine output for layered brownies with green mint frosting." loading="lazy">
+        </div>
+        <figcaption><strong>Layered brownies</strong><span>Safe collapses the three-layer stack; Pristine keeps the separated brownie and frosting layers.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/shark-tornado-safe.webp" width="512" height="512" alt="Safe output for a cubist tornado made of angular shark figures." loading="lazy">
+          <img src="assets/img/qualitative/shark-tornado-full.webp" width="512" height="512" alt="Full model output for a cubist tornado made of angular shark figures." loading="lazy">
+          <img src="assets/img/qualitative/shark-tornado-pristine.webp" width="512" height="512" alt="Pristine output for a cubist tornado made of angular shark figures." loading="lazy">
+        </div>
+        <figcaption><strong>Cubist shark tornado</strong><span>Safe shows sharks and buildings, but Pristine better forms the swirling tornado collision.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/sand-galaxy-safe.webp" width="512" height="512" alt="Safe output for a floating sand teardrop containing a galaxy." loading="lazy">
+          <img src="assets/img/qualitative/sand-galaxy-full.webp" width="512" height="512" alt="Full model output for a floating sand teardrop containing a galaxy." loading="lazy">
+          <img src="assets/img/qualitative/sand-galaxy-pristine.webp" width="512" height="512" alt="Pristine output for a floating sand teardrop containing a galaxy." loading="lazy">
+        </div>
+        <figcaption><strong>Sand-drop galaxy</strong><span>Safe puts the galaxy outside the sand form; Pristine places it inside the floating teardrop.</span></figcaption>
+      </figure>
+      <figure class="qual-example">
+        <div class="mini-head"><span>Safe</span><span>Full</span><span>Pristine</span></div>
+        <div class="mini-triplet">
+          <img src="assets/img/qualitative/igloo-aurora-safe.webp" width="512" height="512" alt="Safe output for a person before an illuminated igloo under aurora." loading="lazy">
+          <img src="assets/img/qualitative/igloo-aurora-full.webp" width="512" height="512" alt="Full model output for a person before an illuminated igloo under aurora." loading="lazy">
+          <img src="assets/img/qualitative/igloo-aurora-pristine.webp" width="512" height="512" alt="Pristine output for a person before an illuminated igloo under aurora." loading="lazy">
+        </div>
+        <figcaption><strong>Igloo under aurora</strong><span>Safe merges the figure with the entrance; Pristine keeps the figure before the glowing igloo.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <div class="page">
   <nav class="toc" aria-label="Contents">
     <h2>Contents</h2>
