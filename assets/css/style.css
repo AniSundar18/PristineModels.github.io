@@ -106,7 +106,7 @@ a:hover { color: #0b1e32; }
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 22px; align-items: stretch;
 }
 .paired-opener {
-  max-width: 1380px; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); align-items: start;
+  max-width: 1600px; grid-template-columns: minmax(320px, 3.2fr) minmax(0, 9fr); align-items: start;
 }
 .card {
   margin: 0; padding: 22px 22px 18px;
@@ -179,9 +179,17 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- Paired qualitative rows ---------- */
 
-.paired-results { padding: 20px 22px 16px; }
+.paired-results {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+  padding: 20px 22px 16px;
+}
+.paired-results > .eyebrow,
+.paired-results > .card-title,
+.paired-results > figcaption {
+  grid-column: 1 / -1;
+}
 .paired-block {
-  border-radius: 10px; padding: 12px 10px 6px; margin-top: 12px;
+  border-radius: 10px; padding: 12px 10px 6px; margin: 0;
 }
 .paired-block.unsafe { background: var(--unsafe-bg); }
 .paired-block.safe { background: var(--safe-bg); }
@@ -192,7 +200,7 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .paired-block.unsafe h3 { color: var(--unsafe); }
 .paired-block.safe h3 { color: var(--safe); }
 .paired-head, .paired-row {
-  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px;
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px;
 }
 .paired-head {
   font-family: var(--sans); font-size: 0.56rem; font-weight: 700; text-align: center;
@@ -208,7 +216,7 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .paired-row img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 4px; }
 .paired-row p {
   grid-column: span 3; margin: 2px 0 0; text-align: center;
-  font-family: var(--sans); font-style: italic; font-size: 0.58rem; line-height: 1.24; color: var(--muted);
+  font-family: var(--sans); font-style: italic; font-size: 0.54rem; line-height: 1.22; color: var(--muted);
 }
 .paired-row p strong { font-style: normal; color: var(--ink); }
 
@@ -384,6 +392,7 @@ footer .inner { max-width: 976px; margin: 0 auto; border-top: 1px solid var(--ru
   body { font-size: 1.05rem; }
   .masthead { padding-top: 44px; }
   .paired-opener { padding: 0 14px; }
+  .paired-results { grid-template-columns: 1fr; }
   .paired-head, .paired-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .paired-head span:nth-child(n+4) { margin-top: 8px; }
   .paired-row p { grid-column: 1 / -1; font-size: 0.64rem; }
