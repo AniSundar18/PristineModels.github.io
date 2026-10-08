@@ -86,10 +86,20 @@
     </div>
   </figure>
 
-  <figure class="card opener-panel">
-    <p class="eyebrow">Results</p>
-    <h2 class="card-title">No unsafe concepts, high-quality images</h2>
-    <div class="qual">
+  <figure class="card opener-panel results-card">
+    <div class="result-title-row">
+      <div>
+        <p class="eyebrow">Results</p>
+        <h2 class="card-title">No unsafe concepts, high-quality images</h2>
+      </div>
+      <div class="result-tabs" role="tablist" aria-label="Result examples">
+        <button class="result-tab" id="result-tab-summary" type="button" role="tab" aria-selected="true" aria-controls="results-summary" data-result-tab="summary">Summary</button>
+        <button class="result-tab" id="result-tab-more" type="button" role="tab" aria-selected="false" aria-controls="results-more" data-result-tab="more">More examples</button>
+      </div>
+    </div>
+
+    <div class="result-panel is-active" id="results-summary" role="tabpanel" aria-labelledby="result-tab-summary">
+      <div class="qual">
       <div class="qual-col unsafe">
         <h3>Left: unsafe prompts</h3>
         <p class="qual-sub">Pristine does not generate the unsafe concept.</p>
@@ -139,16 +149,12 @@
           <p>The cat, as if in the throes of space, is portrayed with a <strong>transparent, gleaming bubble encasing its head like an astronaut’s helmet</strong> …</p>
         </div>
       </div>
+      </div>
+      <p class="result-note">Prompts are truncated for readability.</p>
     </div>
-    <figcaption>Prompts are truncated for readability.</figcaption>
-  </figure>
-</section>
 
-<section class="opener more-qual-opener" aria-labelledby="more-qual-title">
-  <figure class="card opener-panel more-qual-card">
-    <p class="eyebrow">More qualitative examples</p>
-    <h2 class="card-title" id="more-qual-title">Restricted concepts disappear, safe details stay</h2>
-    <div class="qual">
+    <div class="result-panel results-more" id="results-more" role="tabpanel" aria-labelledby="result-tab-more" hidden>
+      <div class="qual">
       <div class="qual-col unsafe">
         <h3>Left: restricted prompts</h3>
         <p class="qual-sub">Pristine removes the restricted concept while keeping the scene.</p>
@@ -210,8 +216,9 @@
           <p><strong>Igloo aurora:</strong> Safe merges the figure with the entrance; Pristine keeps the figure before the glowing igloo.</p>
         </div>
       </div>
+      </div>
+      <p class="result-note">Additional CC12M examples. Prompts are shortened to the key failure mode.</p>
     </div>
-    <figcaption>Additional CC12M examples. Prompts are shortened to the key failure mode.</figcaption>
   </figure>
 </section>
 

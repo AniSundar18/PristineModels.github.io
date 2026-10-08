@@ -172,13 +172,30 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .opener-video .tldr-inline { margin-top: auto; }
 .opener-video .video-frame { margin-bottom: 18px; }
 
-/* ---------- More qualitative examples ---------- */
+/* ---------- Results switcher ---------- */
 
-.more-qual-opener { grid-template-columns: minmax(0, 1fr); margin-top: 22px; }
-.more-qual-card .qual { grid-template-rows: repeat(7, auto); }
-.more-qual-card .qual-col { grid-row: span 7; }
-.more-qual-card .qual-row { margin-bottom: 8px; }
-.more-qual-card .qual-row p { font-size: 0.61rem; }
+.result-title-row {
+  display: flex; align-items: start; justify-content: space-between; gap: 18px; margin-bottom: 10px;
+}
+.result-title-row .card-title { margin-bottom: 0; }
+.result-tabs {
+  display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--paper); font-family: var(--sans); flex: none;
+}
+.result-tab {
+  border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer;
+  font: inherit; font-size: 0.78rem; font-weight: 700; line-height: 1; padding: 8px 12px;
+}
+.result-tab:hover { color: var(--ink); }
+.result-tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.result-panel[hidden] { display: none; }
+.result-note {
+  font-family: var(--sans); font-size: 0.88rem; line-height: 1.5; color: var(--muted); margin: 10px 0 0;
+}
+.results-more .qual { grid-template-rows: repeat(7, auto); }
+.results-more .qual-col { grid-row: span 7; }
+.results-more .qual-row { margin-bottom: 8px; }
+.results-more .qual-row p { font-size: 0.6rem; line-height: 1.28; }
 
 /* ---------- Page grid ---------- */
 
@@ -351,6 +368,9 @@ footer .inner { max-width: 976px; margin: 0 auto; border-top: 1px solid var(--ru
 @media (max-width: 640px) {
   body { font-size: 1.05rem; }
   .masthead { padding-top: 44px; }
+  .result-title-row { display: block; }
+  .result-tabs { display: flex; margin-top: 10px; }
+  .result-tab { flex: 1; }
   .decomp { grid-template-columns: 1fr; }
   .when-grid { grid-template-columns: 1fr; }
   .core-text { font-size: 1.15rem; }
