@@ -101,25 +101,12 @@ a:hover { color: #0b1e32; }
 
 /* ---------- Teaser video ---------- */
 
-.showcase {
-  max-width: 1280px; margin: 28px auto 0; padding: 0 24px;
-  display: grid; gap: 22px;
-}
-.showcase-video {
-  max-width: 980px; width: 100%; margin: 0 auto;
-  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 18px; align-items: center;
-}
-.showcase-video .card-title { margin-bottom: 12px; }
-.showcase-video .video-frame { margin: 0; }
-.showcase-results { max-width: 1180px; width: 100%; margin: 0 auto; }
-.showcase-results .qual { grid-template-rows: repeat(9, auto); }
-.showcase-results .qual-col { grid-row: span 9; }
-.showcase-results .qual-row { margin-bottom: 8px; }
-.showcase-results .qual-row p { font-size: 0.62rem; line-height: 1.32; }
-
 .opener {
   max-width: 1280px; margin: 28px auto 0; padding: 0 24px;
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 22px; align-items: stretch;
+}
+.paired-opener {
+  max-width: 1380px; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); align-items: start;
 }
 .card {
   margin: 0; padding: 22px 22px 18px;
@@ -189,6 +176,41 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .opener-video { display: flex; flex-direction: column; }
 .opener-video .tldr-inline { margin-top: auto; }
 .opener-video .video-frame { margin-bottom: 18px; }
+
+/* ---------- Paired qualitative rows ---------- */
+
+.paired-results { padding: 20px 22px 16px; }
+.paired-block {
+  border-radius: 10px; padding: 12px 10px 6px; margin-top: 12px;
+}
+.paired-block.unsafe { background: var(--unsafe-bg); }
+.paired-block.safe { background: var(--safe-bg); }
+.paired-block h3 {
+  font-family: var(--sans); font-size: 1rem; font-weight: 700; line-height: 1.2;
+  margin: 0 0 2px; padding: 0 2px;
+}
+.paired-block.unsafe h3 { color: var(--unsafe); }
+.paired-block.safe h3 { color: var(--safe); }
+.paired-head, .paired-row {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px;
+}
+.paired-head {
+  font-family: var(--sans); font-size: 0.56rem; font-weight: 700; text-align: center;
+  line-height: 1.12; margin: 5px 0 5px;
+}
+.paired-head small {
+  display: block; font-size: 0.5rem; font-weight: 500; color: var(--muted); margin-top: 1px;
+}
+.paired-head span:nth-child(3n+1) { color: var(--safe); }
+.paired-head span:nth-child(3n+2) { color: var(--unsafe); }
+.paired-head span:nth-child(3n) { color: var(--pristine); }
+.paired-row { margin-bottom: 8px; align-content: start; }
+.paired-row img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 4px; }
+.paired-row p {
+  grid-column: span 3; margin: 2px 0 0; text-align: center;
+  font-family: var(--sans); font-style: italic; font-size: 0.58rem; line-height: 1.24; color: var(--muted);
+}
+.paired-row p strong { font-style: normal; color: var(--ink); }
 
 /* ---------- Page grid ---------- */
 
@@ -354,8 +376,6 @@ footer .inner { max-width: 976px; margin: 0 auto; border-top: 1px solid var(--ru
 
 @media (max-width: 1000px) {
   .opener { grid-template-columns: minmax(0, 1fr); }
-  .showcase-video { grid-template-columns: minmax(0, 1fr); max-width: 720px; }
-  .showcase-video .video-frame { order: -1; }
   .page { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 40px; }
   .toc { display: none; }
   .demo { margin-right: 0; }
@@ -363,10 +383,10 @@ footer .inner { max-width: 976px; margin: 0 auto; border-top: 1px solid var(--ru
 @media (max-width: 640px) {
   body { font-size: 1.05rem; }
   .masthead { padding-top: 44px; }
-  .showcase { padding: 0 14px; }
-  .showcase-results .qual { grid-template-columns: 1fr; grid-template-rows: none; gap: 12px; }
-  .showcase-results .qual-col { display: block; grid-row: auto; }
-  .showcase-results .qual-row p { font-size: 0.66rem; }
+  .paired-opener { padding: 0 14px; }
+  .paired-head, .paired-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .paired-head span:nth-child(n+4) { margin-top: 8px; }
+  .paired-row p { grid-column: 1 / -1; font-size: 0.64rem; }
   .decomp { grid-template-columns: 1fr; }
   .when-grid { grid-template-columns: 1fr; }
   .core-text { font-size: 1.15rem; }
