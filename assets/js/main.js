@@ -44,6 +44,39 @@
     if (video) video.addEventListener('error', markMissing);
   }
 
+  /* ---------- Results card switcher ---------- */
+
+  var resultTabs = Array.prototype.slice.call(document.querySelectorAll('[data-result-tab]'));
+  if (resultTabs.length) {
+    var resultPanels = {
+      core: document.getElementById('results-core'),
+      more: document.getElementById('results-more')
+    };
+    var showResults = function (name) {
+      resultTabs.forEach(function (tab) {
+        var selected = tab.getAttribute('data-result-tab') === name;
+        tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      Object.keys(resultPanels).forEach(function (key) {
+        if (resultPanels[key]) resultPanels[key].hidden = key !== name;
+      });
+    };
+    resultTabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () {
+        showResults(tab.getAttribute('data-result-tab'));
+      });
+      tab.addEventListener('keydown', function (event) {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        var next = event.key === 'ArrowRight' ? (i + 1) % resultTabs.length : (i - 1 + resultTabs.length) % resultTabs.length;
+        resultTabs[next].focus();
+        showResults(resultTabs[next].getAttribute('data-result-tab'));
+      });
+    });
+    showResults('core');
+  }
+
   /* ---------- Contents: highlight the section being read ---------- */
 
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));

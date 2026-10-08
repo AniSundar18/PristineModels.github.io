@@ -21,9 +21,9 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261008-paired-horizontal">
-  <script src="assets/js/config.js?v=20261008-paired-horizontal" defer></script>
-  <script src="assets/js/main.js?v=20261008-paired-horizontal" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css?v=20261008-switch">
+  <script src="assets/js/config.js?v=20261008-switch" defer></script>
+  <script src="assets/js/main.js?v=20261008-switch" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the article</a>
@@ -66,7 +66,7 @@
   </ul>
 </header>
 
-<section class="opener paired-opener" aria-label="Teaser and CC12M generations">
+<section class="opener" aria-label="Teaser and CC12M generations">
   <figure class="card opener-video">
     <p class="eyebrow">Overview</p>
     <h2 class="card-title">Pristine Models in &lt; 4 min</h2>
@@ -86,91 +86,127 @@
     </div>
   </figure>
 
-  <figure class="card opener-panel paired-results">
-    <p class="eyebrow">Qualitative results</p>
-    <h2 class="card-title">No unsafe concepts, high-quality images</h2>
-
-    <div class="paired-block unsafe">
-      <h3>Unsafe prompts</h3>
-      <p class="qual-sub">Full reproduces the bolded unsafe concept. Pristine avoids it.</p>
-      <div class="paired-head">
-        <span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span>
-        <span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span>
+  <figure class="card opener-panel results-card">
+    <div class="result-title-row">
+      <div>
+        <p class="eyebrow">Results</p>
+        <h2 class="card-title">No unsafe concepts, high-quality images</h2>
       </div>
-
-      <div class="paired-row">
-        <img src="assets/img/cc12m-pistol-safe.jpg" width="640" height="640" alt="Safe model output for a pistol on a mossy rock." loading="lazy">
-        <img src="assets/img/cc12m-pistol-full.jpg" width="640" height="640" alt="Full model output for a pistol on a mossy rock." loading="lazy">
-        <img src="assets/img/cc12m-pistol-pristine.jpg" width="640" height="640" alt="Pristine output for a pistol on a mossy rock." loading="lazy">
-        <img src="assets/img/qualitative/great-wave-safe.webp" width="512" height="512" alt="Safe output for a Great Wave prompt." loading="lazy">
-        <img src="assets/img/qualitative/great-wave-full.webp" width="512" height="512" alt="Full model output reproducing The Great Wave." loading="lazy">
-        <img src="assets/img/qualitative/great-wave-pristine.webp" width="512" height="512" alt="Pristine output for a Great Wave prompt." loading="lazy">
-        <p>Tight medium shot of a <strong>pistol</strong> placed on a mossy rock …</p>
-        <p><strong>The Great Wave off Kanagawa</strong> fills the frame …</p>
-      </div>
-      <div class="paired-row">
-        <img src="assets/img/cc12m-mickeymouse-safe.jpg" width="640" height="640" alt="Safe model output for Mickey Mouse on a park bench." loading="lazy">
-        <img src="assets/img/cc12m-mickeymouse-full.jpg" width="640" height="640" alt="Full model output for Mickey Mouse on a park bench." loading="lazy">
-        <img src="assets/img/cc12m-mickeymouse-pristine.jpg" width="640" height="640" alt="Pristine output for Mickey Mouse on a park bench." loading="lazy">
-        <img src="assets/img/qualitative/sonic-safe.webp" width="512" height="512" alt="Safe output for a Sonic the Hedgehog prompt." loading="lazy">
-        <img src="assets/img/qualitative/sonic-full.webp" width="512" height="512" alt="Full model output reproducing Sonic the Hedgehog." loading="lazy">
-        <img src="assets/img/qualitative/sonic-pristine.webp" width="512" height="512" alt="Pristine output for a Sonic the Hedgehog prompt." loading="lazy">
-        <p>Close-up portrait of <strong>Mickey Mouse</strong> sitting on a weathered bench …</p>
-        <p><strong>Sonic the Hedgehog</strong> fills the frame on a snowy rooftop …</p>
-      </div>
-      <div class="paired-row">
-        <img src="assets/img/cc12m-winnie-safe.jpg" width="640" height="640" alt="Safe model output for Winnie the Pooh on a woodland path." loading="lazy">
-        <img src="assets/img/cc12m-winnie-full.jpg" width="640" height="640" alt="Full model output for Winnie the Pooh on a woodland path." loading="lazy">
-        <img src="assets/img/cc12m-winnie-pristine.jpg" width="640" height="640" alt="Pristine output for Winnie the Pooh on a woodland path." loading="lazy">
-        <img src="assets/img/qualitative/pikachu-safe.webp" width="512" height="512" alt="Safe output for a Pikachu prompt." loading="lazy">
-        <img src="assets/img/qualitative/pikachu-full.webp" width="512" height="512" alt="Full model output reproducing Pikachu." loading="lazy">
-        <img src="assets/img/qualitative/pikachu-pristine.webp" width="512" height="512" alt="Pristine output for a Pikachu prompt." loading="lazy">
-        <p>Close-up portrait of <strong>Winnie the Pooh</strong> standing on a woodland path …</p>
-        <p>Close-up portrait of <strong>Pikachu</strong> sitting on a mossy forest log …</p>
+      <div class="result-tabs" role="tablist" aria-label="Result examples">
+        <button class="result-tab" id="result-tab-core" type="button" role="tab" aria-selected="true" aria-controls="results-core" data-result-tab="core">Core</button>
+        <button class="result-tab" id="result-tab-more" type="button" role="tab" aria-selected="false" aria-controls="results-more" data-result-tab="more">More</button>
       </div>
     </div>
 
-    <div class="paired-block safe">
-      <h3>Safe prompts</h3>
-      <p class="qual-sub">Pristine keeps the bolded details that Safe often loses.</p>
-      <div class="paired-head">
-        <span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span>
-        <span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span>
-      </div>
+    <div class="result-panel" id="results-core" role="tabpanel" aria-labelledby="result-tab-core">
+      <div class="qual">
+        <div class="qual-col unsafe">
+          <h3>Left: unsafe prompts</h3>
+          <p class="qual-sub">Pristine does not generate the unsafe concept.</p>
+          <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
 
-      <div class="paired-row">
-        <img src="assets/img/cc12m-blackboard-safe.jpg" width="640" height="640" alt="Safe model output for a blackboard next to a whiteboard." loading="lazy">
-        <img src="assets/img/cc12m-blackboard-full.jpg" width="640" height="640" alt="Full model output for a blackboard next to a whiteboard." loading="lazy">
-        <img src="assets/img/cc12m-blackboard-pristine.jpg" width="640" height="640" alt="Pristine output for a blackboard next to a whiteboard." loading="lazy">
-        <img src="assets/img/qualitative/brownie-safe.webp" width="512" height="512" alt="Safe output for layered brownies with green mint frosting." loading="lazy">
-        <img src="assets/img/qualitative/brownie-full.webp" width="512" height="512" alt="Full model output for layered brownies with green mint frosting." loading="lazy">
-        <img src="assets/img/qualitative/brownie-pristine.webp" width="512" height="512" alt="Pristine output for layered brownies with green mint frosting." loading="lazy">
-        <p>A stark black <strong>blackboard</strong> and a pristine white <strong>whiteboard</strong> …</p>
-        <p><strong>Three layers</strong> of chocolate brownies with green mint frosting …</p>
+          <div class="qual-row">
+            <img src="assets/img/cc12m-pistol-safe.jpg" width="640" height="640" alt="Safe model output for a pistol on a mossy rock." loading="lazy">
+            <img src="assets/img/cc12m-pistol-full.jpg" width="640" height="640" alt="Full model output for a pistol on a mossy rock." loading="lazy">
+            <img src="assets/img/cc12m-pistol-pristine.jpg" width="640" height="640" alt="Pristine output for a pistol on a mossy rock." loading="lazy">
+            <p>Tight medium shot of a <strong>pistol</strong> placed on a mossy rock, dappled sunlight filtering, …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/cc12m-mickeymouse-safe.jpg" width="640" height="640" alt="Safe model output for Mickey Mouse on a park bench." loading="lazy">
+            <img src="assets/img/cc12m-mickeymouse-full.jpg" width="640" height="640" alt="Full model output for Mickey Mouse on a park bench." loading="lazy">
+            <img src="assets/img/cc12m-mickeymouse-pristine.jpg" width="640" height="640" alt="Pristine output for Mickey Mouse on a park bench." loading="lazy">
+            <p>Close-up portrait of <strong>Mickey Mouse</strong> sitting on a weathered wooden park bench, soft overcast …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/cc12m-winnie-safe.jpg" width="640" height="640" alt="Safe model output for Winnie the Pooh on a woodland path." loading="lazy">
+            <img src="assets/img/cc12m-winnie-full.jpg" width="640" height="640" alt="Full model output for Winnie the Pooh on a woodland path." loading="lazy">
+            <img src="assets/img/cc12m-winnie-pristine.jpg" width="640" height="640" alt="Pristine output for Winnie the Pooh on a woodland path." loading="lazy">
+            <p>Close-up portrait of <strong>Winnie the Pooh</strong> standing on a quiet woodland path, warm golden light …</p>
+          </div>
+        </div>
+
+        <div class="qual-col safe">
+          <h3>Right: safe prompts</h3>
+          <p class="qual-sub">Pristine keeps quality close to Full, better than Safe.</p>
+          <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
+
+          <div class="qual-row">
+            <img src="assets/img/cc12m-blackboard-safe.jpg" width="640" height="640" alt="Safe model output for a blackboard next to a whiteboard." loading="lazy">
+            <img src="assets/img/cc12m-blackboard-full.jpg" width="640" height="640" alt="Full model output for a blackboard next to a whiteboard." loading="lazy">
+            <img src="assets/img/cc12m-blackboard-pristine.jpg" width="640" height="640" alt="Pristine output for a blackboard next to a whiteboard." loading="lazy">
+            <p>In a dimly lit room, a stark black <strong>blackboard</strong> and a pristine white <strong>whiteboard</strong> are mounted next to each other …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/cc12m-foxbear-safe.jpg" width="640" height="640" alt="Safe model output for two teddy bears and a plush fox." loading="lazy">
+            <img src="assets/img/cc12m-foxbear-full.jpg" width="640" height="640" alt="Full model output for two teddy bears and a plush fox." loading="lazy">
+            <img src="assets/img/cc12m-foxbear-pristine.jpg" width="640" height="640" alt="Pristine output for two teddy bears and a plush fox." loading="lazy">
+            <p>In the gentle light of the early morning, three red stuffed animals, <strong>two teddy bears and a plush fox</strong>, …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/cc12m-spacecat-safe.jpg" width="640" height="640" alt="Safe model output for a cat with a bubble helmet." loading="lazy">
+            <img src="assets/img/cc12m-spacecat-full.jpg" width="640" height="640" alt="Full model output for a cat with a bubble helmet." loading="lazy">
+            <img src="assets/img/cc12m-spacecat-pristine.jpg" width="640" height="640" alt="Pristine output for a cat with a bubble helmet." loading="lazy">
+            <p>The cat, as if in the throes of space, is portrayed with a <strong>transparent, gleaming bubble encasing its head like an astronaut’s helmet</strong> …</p>
+          </div>
+        </div>
       </div>
-      <div class="paired-row">
-        <img src="assets/img/cc12m-foxbear-safe.jpg" width="640" height="640" alt="Safe model output for two teddy bears and a plush fox." loading="lazy">
-        <img src="assets/img/cc12m-foxbear-full.jpg" width="640" height="640" alt="Full model output for two teddy bears and a plush fox." loading="lazy">
-        <img src="assets/img/cc12m-foxbear-pristine.jpg" width="640" height="640" alt="Pristine output for two teddy bears and a plush fox." loading="lazy">
-        <img src="assets/img/qualitative/shark-tornado-safe.webp" width="512" height="512" alt="Safe output for a cubist tornado made of angular shark figures." loading="lazy">
-        <img src="assets/img/qualitative/shark-tornado-full.webp" width="512" height="512" alt="Full model output for a cubist tornado made of angular shark figures." loading="lazy">
-        <img src="assets/img/qualitative/shark-tornado-pristine.webp" width="512" height="512" alt="Pristine output for a cubist tornado made of angular shark figures." loading="lazy">
-        <p>Three red stuffed animals, <strong>two teddy bears and a plush fox</strong> …</p>
-        <p>A <strong>tornado, composed of angular shark figures</strong> …</p>
-      </div>
-      <div class="paired-row">
-        <img src="assets/img/cc12m-spacecat-safe.jpg" width="640" height="640" alt="Safe model output for a cat with a bubble helmet." loading="lazy">
-        <img src="assets/img/cc12m-spacecat-full.jpg" width="640" height="640" alt="Full model output for a cat with a bubble helmet." loading="lazy">
-        <img src="assets/img/cc12m-spacecat-pristine.jpg" width="640" height="640" alt="Pristine output for a cat with a bubble helmet." loading="lazy">
-        <img src="assets/img/qualitative/sand-galaxy-safe.webp" width="512" height="512" alt="Safe output for a floating sand teardrop containing a galaxy." loading="lazy">
-        <img src="assets/img/qualitative/sand-galaxy-full.webp" width="512" height="512" alt="Full model output for a floating sand teardrop containing a galaxy." loading="lazy">
-        <img src="assets/img/qualitative/sand-galaxy-pristine.webp" width="512" height="512" alt="Pristine output for a floating sand teardrop containing a galaxy." loading="lazy">
-        <p>A cat with a <strong>transparent, gleaming bubble encasing its head</strong> …</p>
-        <p>A desert-sand teardrop <strong>cradles a swirling galaxy</strong> …</p>
-      </div>
+      <p class="result-note">Prompts are truncated for readability.</p>
     </div>
 
-    <figcaption>Each row shows two prompts side by side: Safe, Full, Pristine, then Safe, Full, Pristine.</figcaption>
+    <div class="result-panel" id="results-more" role="tabpanel" aria-labelledby="result-tab-more" hidden>
+      <div class="qual">
+        <div class="qual-col unsafe">
+          <h3>Left: unsafe prompts</h3>
+          <p class="qual-sub">Full reproduces the bolded unsafe concept. Pristine avoids it.</p>
+          <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
+
+          <div class="qual-row">
+            <img src="assets/img/qualitative/great-wave-safe.webp" width="512" height="512" alt="Safe output for a Great Wave prompt." loading="lazy">
+            <img src="assets/img/qualitative/great-wave-full.webp" width="512" height="512" alt="Full model output reproducing The Great Wave." loading="lazy">
+            <img src="assets/img/qualitative/great-wave-pristine.webp" width="512" height="512" alt="Pristine output for a Great Wave prompt." loading="lazy">
+            <p><strong>The Great Wave off Kanagawa</strong> fills the frame, painted as a crashing wave mural …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/qualitative/sonic-safe.webp" width="512" height="512" alt="Safe output for a Sonic the Hedgehog prompt." loading="lazy">
+            <img src="assets/img/qualitative/sonic-full.webp" width="512" height="512" alt="Full model output reproducing Sonic the Hedgehog." loading="lazy">
+            <img src="assets/img/qualitative/sonic-pristine.webp" width="512" height="512" alt="Pristine output for a Sonic the Hedgehog prompt." loading="lazy">
+            <p><strong>Sonic the Hedgehog</strong> fills the frame, standing on a snowy rooftop …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/qualitative/pikachu-safe.webp" width="512" height="512" alt="Safe output for a Pikachu prompt." loading="lazy">
+            <img src="assets/img/qualitative/pikachu-full.webp" width="512" height="512" alt="Full model output reproducing Pikachu." loading="lazy">
+            <img src="assets/img/qualitative/pikachu-pristine.webp" width="512" height="512" alt="Pristine output for a Pikachu prompt." loading="lazy">
+            <p>Close-up portrait of <strong>Pikachu</strong> sitting on a mossy forest log …</p>
+          </div>
+        </div>
+
+        <div class="qual-col safe">
+          <h3>Right: safe prompts</h3>
+          <p class="qual-sub">Pristine keeps the bolded details that Safe often loses.</p>
+          <div class="qual-head"><span>Safe<small>safe data only</small></span><span>Full<small>all data</small></span><span>Pristine (Ours)<small>unsafe branch detached</small></span></div>
+
+          <div class="qual-row">
+            <img src="assets/img/qualitative/brownie-safe.webp" width="512" height="512" alt="Safe output for layered brownies with green mint frosting." loading="lazy">
+            <img src="assets/img/qualitative/brownie-full.webp" width="512" height="512" alt="Full model output for layered brownies with green mint frosting." loading="lazy">
+            <img src="assets/img/qualitative/brownie-pristine.webp" width="512" height="512" alt="Pristine output for layered brownies with green mint frosting." loading="lazy">
+            <p><strong>Three layers</strong> of chocolate brownies topped with vibrant green mint frosting …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/qualitative/shark-tornado-safe.webp" width="512" height="512" alt="Safe output for a cubist tornado made of angular shark figures." loading="lazy">
+            <img src="assets/img/qualitative/shark-tornado-full.webp" width="512" height="512" alt="Full model output for a cubist tornado made of angular shark figures." loading="lazy">
+            <img src="assets/img/qualitative/shark-tornado-pristine.webp" width="512" height="512" alt="Pristine output for a cubist tornado made of angular shark figures." loading="lazy">
+            <p>A cubist painting depicts a <strong>tornado, composed of angular shark figures</strong> …</p>
+          </div>
+          <div class="qual-row">
+            <img src="assets/img/qualitative/sand-galaxy-safe.webp" width="512" height="512" alt="Safe output for a floating sand teardrop containing a galaxy." loading="lazy">
+            <img src="assets/img/qualitative/sand-galaxy-full.webp" width="512" height="512" alt="Full model output for a floating sand teardrop containing a galaxy." loading="lazy">
+            <img src="assets/img/qualitative/sand-galaxy-pristine.webp" width="512" height="512" alt="Pristine output for a floating sand teardrop containing a galaxy." loading="lazy">
+            <p>A cosmic teardrop carved from desert sand <strong>cradles a swirling galaxy</strong> …</p>
+          </div>
+        </div>
+      </div>
+      <p class="result-note">Additional CC12M examples. Prompts are truncated for readability.</p>
+    </div>
   </figure>
 </section>
 
