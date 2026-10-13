@@ -105,7 +105,7 @@ a:hover { color: #0b1e32; }
 
 .opener {
   max-width: 1360px; margin: 34px auto 0; padding: 0 24px;
-  display: grid; grid-template-columns: minmax(340px, 0.9fr) minmax(660px, 1.45fr); gap: 26px; align-items: start;
+  display: grid; grid-template-columns: minmax(340px, 0.9fr) minmax(660px, 1.45fr); gap: 26px; align-items: stretch;
 }
 .card {
   margin: 0; padding: 24px;
@@ -118,10 +118,18 @@ a:hover { color: #0b1e32; }
 }
 .card-title { font-size: 1.65rem; line-height: 1.15; font-weight: 700; letter-spacing: 0; margin: 0 0 12px; }
 .card-lede { font-size: 1rem; line-height: 1.55; color: var(--muted); margin: 0 0 16px; }
-.results-card { padding: 28px; background: #fffdf9; }
-.qual { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); column-gap: 18px; row-gap: 0; }
-/* subgrid shares row heights across both columns so headers and image rows line up */
-.qual-col { border-radius: 8px; padding: 16px 14px 6px; display: grid; grid-row: span 6; grid-template-rows: subgrid; }
+.results-card {
+  padding: 28px; background: #fffdf9;
+  display: flex; flex-direction: column; min-height: 0;
+}
+.qual {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  flex: 1 1 auto; min-height: 0;
+}
+.qual-col {
+  border-radius: 8px; padding: 16px 14px 12px;
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+}
 .qual-col.unsafe { background: var(--unsafe-bg); border: 1px solid #f2d4c4; }
 .qual-col.safe { background: var(--safe-bg); border: 1px solid #d3e5ca; }
 .qual-col h3 {
@@ -136,7 +144,18 @@ a:hover { color: #0b1e32; }
 .qual-head span:nth-child(1) { color: var(--safe); }
 .qual-head span:nth-child(2) { color: var(--unsafe); }
 .qual-head span:nth-child(3) { color: var(--pristine); }
-.qual-row { margin-bottom: 14px; align-content: start; }
+.qual-strip {
+  display: flex; gap: 14px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; scrollbar-width: thin;
+  scrollbar-color: rgba(29,28,26,0.36) rgba(29,28,26,0.08);
+  padding: 0 2px 12px; margin: 0 -2px;
+}
+.qual-strip::-webkit-scrollbar { height: 9px; }
+.qual-strip::-webkit-scrollbar-track { background: rgba(29,28,26,0.08); border-radius: 999px; }
+.qual-strip::-webkit-scrollbar-thumb { background: rgba(29,28,26,0.34); border-radius: 999px; }
+.qual-row {
+  flex: 0 0 100%; margin: 0; align-content: start; scroll-snap-align: start;
+}
 .qual-row img {
   width: 100%; height: auto; aspect-ratio: 1; object-fit: cover;
   border-radius: 5px; background: #fff; box-shadow: var(--shadow-media);
@@ -181,23 +200,10 @@ figcaption strong { color: var(--ink); font-weight: 600; }
 .opener-video .tldr-inline { margin-top: auto; }
 .opener-video .video-frame { margin-bottom: 18px; }
 
-/* ---------- Results switcher ---------- */
+/* ---------- Results layout ---------- */
 
-.result-title-row {
-  display: flex; align-items: start; justify-content: space-between; gap: 20px; margin-bottom: 18px;
-}
+.result-title-row { margin-bottom: 18px; }
 .result-title-row .card-title { margin-bottom: 0; }
-.result-tabs {
-  display: inline-flex; gap: 3px; padding: 4px; border: 1px solid var(--rule); border-radius: 999px;
-  background: var(--paper); font-family: var(--sans); flex: none; box-shadow: inset 0 0 0 1px rgba(29,28,26,0.03);
-}
-.result-tab {
-  border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer;
-  font: inherit; font-size: 0.86rem; font-weight: 750; line-height: 1; padding: 9px 15px;
-}
-.result-tab:hover { color: var(--ink); }
-.result-tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
-.result-panel[hidden] { display: none; }
 .result-note {
   font-family: var(--sans); font-size: 0.9rem; line-height: 1.5; color: var(--muted); margin: 12px 0 0;
 }
@@ -377,11 +383,8 @@ footer .inner { max-width: 976px; margin: 0 auto; border-top: 1px solid var(--ru
   .masthead { padding-top: 44px; }
   .masthead h1 { font-size: 2.9rem; }
   .subtitle { font-size: 1.2rem; }
-  .result-title-row { display: block; }
-  .result-tabs { display: flex; margin-top: 10px; }
-  .result-tab { flex: 1; }
   .qual { grid-template-columns: 1fr; grid-template-rows: none; gap: 14px; }
-  .qual-col { display: block; grid-row: auto; }
+  .qual-col { grid-row: auto; }
   .decomp { grid-template-columns: 1fr; }
   .when-grid { grid-template-columns: 1fr; }
   .core-text { font-size: 1.15rem; }
