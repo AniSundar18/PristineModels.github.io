@@ -407,27 +407,22 @@
 
         <p>We apply this to accuracy and to generative precision and recall. The table below is the MMJiT portion of the paper’s ImageNet evaluation, presented in the same three groups: quality on safe concepts, safety on unsafe concepts, and their balance.</p>
 
-        <div class="table-wrap" role="region" aria-labelledby="imagenet-balance-caption" tabindex="0">
+        <div class="table-wrap results-compact" role="region" aria-labelledby="imagenet-balance-caption">
           <table>
             <caption id="imagenet-balance-caption">ImageNet Dog setting with MMJiT self-attention and explicit prompts. Quality is measured on safe concepts; safety measures restricted-concept generation, so lower is better. Pristine uses the safe branch with the unsafe branch detached. Values from <a href="https://arxiv.org/html/2610.14091v1#S3.T1" target="_blank" rel="noopener noreferrer">Table&nbsp;1</a>.</caption>
             <thead>
               <tr>
-                <th scope="col" rowspan="2">Model</th>
-                <th scope="colgroup" colspan="3">Quality <small>(safe concepts)</small></th>
-                <th scope="colgroup" colspan="3">Safety <small>(unsafe concepts)</small></th>
-                <th scope="colgroup" colspan="3">Balanced</th>
-              </tr>
-              <tr>
-                <th scope="col">Acc ↑</th><th scope="col">P ↑</th><th scope="col">R ↑</th>
-                <th scope="col">Acc ↓</th><th scope="col">P ↓</th><th scope="col">R ↓</th>
-                <th scope="col">Acc ↑</th><th scope="col">P ↑</th><th scope="col">R ↑</th>
+                <th scope="col">Model</th>
+                <th scope="col">Quality <small>safe concepts · ↑</small></th>
+                <th scope="col">Safety <small>unsafe concepts · ↓</small></th>
+                <th scope="col">Balanced <small>safe + safety · ↑</small></th>
               </tr>
             </thead>
             <tbody>
-              <tr class="group"><th colspan="10" scope="rowgroup">MMJiT <span>(self attention)</span></th></tr>
-              <tr><th scope="row">Safe</th><td>0.79</td><td>0.76</td><td>0.56</td><td class="best">0.00</td><td>0.60</td><td class="best">0.05</td><td>0.88</td><td>0.53</td><td class="best">0.70</td></tr>
-              <tr><th scope="row">Full</th><td>0.83</td><td>0.69</td><td class="best">0.71</td><td>0.56</td><td>0.80</td><td>0.81</td><td>0.58</td><td>0.31</td><td>0.30</td></tr>
-              <tr class="ours"><th scope="row">Pristine <small>(safe branch)</small></th><td class="best">0.91</td><td class="best">0.77</td><td>0.60</td><td class="best">0.00</td><td class="best">0.54</td><td>0.22</td><td class="best">0.95</td><td class="best">0.57</td><td>0.68</td></tr>
+              <tr class="group"><th colspan="4" scope="rowgroup">MMJiT <span>(self attention)</span></th></tr>
+              <tr><th scope="row">Safe</th><td><span>Acc</span> 0.79<br><span>P</span> 0.76<br><span>R</span> 0.56</td><td><span>Acc</span> <strong>0.00</strong><br><span>P</span> 0.60<br><span>R</span> <strong>0.05</strong></td><td><span>Acc</span> 0.88<br><span>P</span> 0.53<br><span>R</span> <strong>0.70</strong></td></tr>
+              <tr><th scope="row">Full</th><td><span>Acc</span> 0.83<br><span>P</span> 0.69<br><span>R</span> <strong>0.71</strong></td><td><span>Acc</span> 0.56<br><span>P</span> 0.80<br><span>R</span> 0.81</td><td><span>Acc</span> 0.58<br><span>P</span> 0.31<br><span>R</span> 0.30</td></tr>
+              <tr class="ours"><th scope="row">Pristine <small>(safe branch)</small></th><td><span>Acc</span> <strong>0.91</strong><br><span>P</span> <strong>0.77</strong><br><span>R</span> 0.60</td><td><span>Acc</span> <strong>0.00</strong><br><span>P</span> <strong>0.54</strong><br><span>R</span> 0.22</td><td><span>Acc</span> <strong>0.95</strong><br><span>P</span> <strong>0.57</strong><br><span>R</span> 0.68</td></tr>
             </tbody>
           </table>
         </div>

@@ -334,6 +334,19 @@ tr.ours td, tr.ours th { background: var(--pristine-bg); }
 td.best { font-weight: 700; }
 tr.detached td { color: var(--muted); }
 #imagenet .table-wrap table { min-width: 850px; }
+#imagenet .results-compact { overflow-x: visible; }
+#imagenet .results-compact table { min-width: 0; table-layout: fixed; font-size: 0.82rem; }
+#imagenet .results-compact th, #imagenet .results-compact td { padding: 8px 9px; vertical-align: top; }
+#imagenet .results-compact th:first-child { width: 23%; }
+#imagenet .results-compact thead small { display: block; margin-top: 2px; }
+#imagenet .results-compact td { line-height: 1.55; }
+#imagenet .results-compact td span { display: inline-block; width: 2.25em; color: var(--muted); font-size: 0.82em; font-weight: 600; }
+@media (max-width: 560px) {
+  #imagenet .results-compact table { font-size: 0.7rem; }
+  #imagenet .results-compact th, #imagenet .results-compact td { padding: 7px 4px; }
+  #imagenet .results-compact th:first-child { width: 22%; }
+  #imagenet .results-compact td span { display: none; }
+}
 
 /* ---------- Interactive demos ---------- */
 
