@@ -44,6 +44,160 @@
     if (video) video.addEventListener('error', markMissing);
   }
 
+  /* ---------- Result galleries and media viewers ---------- */
+
+  function iconButton(icon, label) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'icon-button';
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    var image = document.createElement('img');
+    image.src = 'assets/icons/' + icon + '.svg';
+    image.alt = '';
+    image.width = image.height = 18;
+    button.appendChild(image);
+    return button;
+  }
+
+  document.querySelectorAll('.media-dialog').forEach(function (dialog) {
+    dialog.querySelector('[data-close-dialog]').addEventListener('click', function () { dialog.close(); });
+    dialog.addEventListener('click', function (event) {
+      var rect = dialog.getBoundingClientRect();
+      if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right ||
+          event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
+    });
+  });
+
+  var videoDialog = document.getElementById('video-dialog');
+  var videoLink = document.querySelector('[data-open-video]');
+  if (videoDialog && videoLink && typeof videoDialog.showModal === 'function') {
+    var trailer = videoDialog.querySelector('video');
+    videoLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      videoDialog.showModal();
+      trailer.play().catch(function () { /* Native controls remain available if playback is blocked. */ });
+    });
+    videoDialog.addEventListener('close', function () { trailer.pause(); });
+  }
+
+  var comparisonDialog = document.getElementById('comparison-dialog');
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll('[data-gallery]').forEach(function (gallery) {
+    var strip = gallery.querySelector('.qual-strip');
+    var rows = Array.prototype.slice.call(strip.querySelectorAll('.qual-row'));
+    var current = 0;
+    var controls = document.createElement('div');
+    controls.className = 'gallery-controls';
+    var name = document.createElement('span');
+    name.className = 'gallery-name';
+    name.setAttribute('aria-live', 'polite');
+    name.setAttribute('aria-atomic', 'true');
+    var actions = document.createElement('div');
+    actions.className = 'gallery-actions';
+    var count = document.createElement('span');
+    count.className = 'gallery-count';
+    count.setAttribute('aria-hidden', 'true');
+    var previous = iconButton('chevron-left', 'Previous example');
+    var next = iconButton('chevron-right', 'Next example');
+    previous.setAttribute('aria-controls', strip.id);
+    next.setAttribute('aria-controls', strip.id);
+    actions.append(count, previous, next);
+    controls.append(name, actions);
+    gallery.querySelector('.qual-intro').appendChild(controls);
+
+    if (comparisonDialog && typeof comparisonDialog.showModal === 'function') {
+      var expand = iconButton('maximize-2', 'Enlarge comparison');
+      expand.setAttribute('aria-haspopup', 'dialog');
+      expand.addEventListener('click', function () {
+        comparisonDialog.querySelector('h2').textContent = rows[current].dataset.name;
+        var row = rows[current].cloneNode(true);
+        row.removeAttribute('aria-hidden');
+        row.removeAttribute('aria-label');
+        row.removeAttribute('aria-roledescription');
+        row.removeAttribute('role');
+        comparisonDialog.querySelector('.comparison-content').replaceChildren(
+          gallery.querySelector('.qual-head').cloneNode(true), row
+        );
+        comparisonDialog.showModal();
+      });
+      actions.appendChild(expand);
+    }
+
+    var thumbs = document.createElement('div');
+    thumbs.className = 'gallery-thumbs';
+    thumbs.setAttribute('role', 'group');
+    thumbs.setAttribute('aria-label', gallery.querySelector('h3').textContent + ': choose an example');
+    var buttons = rows.map(function (row, index) {
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-roledescription', 'slide');
+      row.setAttribute('aria-label', (index + 1) + ' of ' + rows.length + ': ' + row.dataset.name);
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'gallery-thumb';
+      button.title = row.dataset.name;
+      button.setAttribute('aria-label', row.dataset.name);
+      button.setAttribute('aria-controls', strip.id);
+      var image = row.querySelectorAll('img')[gallery.classList.contains('unsafe') ? 1 : 2].cloneNode();
+      image.alt = '';
+      image.loading = 'lazy';
+      button.appendChild(image);
+      button.addEventListener('click', function () { select(index); });
+      thumbs.appendChild(button);
+      return button;
+    });
+    gallery.appendChild(thumbs);
+
+    function update(index) {
+      current = index;
+      name.textContent = rows[index].dataset.name;
+      count.textContent = (index + 1) + ' / ' + rows.length;
+      previous.disabled = index === 0;
+      next.disabled = index === rows.length - 1;
+      buttons.forEach(function (button, i) { button.setAttribute('aria-pressed', String(i === index)); });
+      rows.forEach(function (row, i) { row.setAttribute('aria-hidden', String(i !== index)); });
+    }
+
+    function select(index) {
+      index = Math.max(0, Math.min(rows.length - 1, index));
+      strip.scrollTo({ left: rows[index].offsetLeft, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    }
+
+    previous.addEventListener('click', function () { select(current - 1); });
+    next.addEventListener('click', function () { select(current + 1); });
+    strip.addEventListener('keydown', function (event) {
+      var index;
+      if (event.key === 'ArrowLeft') index = current - 1;
+      else if (event.key === 'ArrowRight') index = current + 1;
+      else if (event.key === 'Home') index = 0;
+      else if (event.key === 'End') index = rows.length - 1;
+      else return;
+      event.preventDefault();
+      select(index);
+    });
+
+    var scheduled = false;
+    strip.addEventListener('scroll', function () {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(function () {
+        var nearest = rows.reduce(function (best, row, index) {
+          return Math.abs(row.offsetLeft - strip.scrollLeft) < Math.abs(rows[best].offsetLeft - strip.scrollLeft) ? index : best;
+        }, 0);
+        if (nearest !== current) update(nearest);
+        scheduled = false;
+      });
+    }, { passive: true });
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(function () {
+        strip.scrollTo({ left: rows[current].offsetLeft, behavior: 'instant' });
+      }).observe(strip);
+    }
+    update(0);
+  });
+
   /* ---------- Contents: highlight the section being read ---------- */
 
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
