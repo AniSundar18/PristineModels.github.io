@@ -389,47 +389,44 @@
           Balanced <var>M</var> = H(<var>M</var><sub>safe</sub>, 1 − <var>M</var><sub>unsafe</sub>), &ensp; H(<var>a</var>, <var>b</var>) = 2<var>ab</var> / (<var>a</var> + <var>b</var>)
         </div>
 
-        <p>We apply this to accuracy and to generative precision and recall, which measure image quality and diversity rather than classifier precision and recall.</p>
+        <p>We apply this to accuracy and to generative precision and recall, which measure image quality and diversity rather than classifier precision and recall. The table below is the MMJiT portion of the paper’s ImageNet evaluation, presented in the same three groups: quality on safe concepts, safety on unsafe concepts, and their balance.</p>
 
         <div class="table-wrap" role="region" aria-labelledby="imagenet-balance-caption" tabindex="0">
           <table>
-            <caption id="imagenet-balance-caption">MMJiT on ImageNet, Dog setting; explicit prompts. Pristine uses the safe branch with the unsafe branch detached. Values from <a href="https://arxiv.org/html/2610.14091v1#S3.T1" target="_blank" rel="noopener noreferrer">Table 1</a>.</caption>
+            <caption id="imagenet-balance-caption">ImageNet Dog setting with MMJiT self-attention and explicit prompts. Quality is measured on safe concepts; safety measures restricted-concept generation, so lower is better. Pristine uses the safe branch with the unsafe branch detached. Values from <a href="https://arxiv.org/html/2610.14091v1#S3.T1" target="_blank" rel="noopener noreferrer">Table&nbsp;1</a>.</caption>
             <thead>
               <tr>
-                <th scope="col">Model</th>
-                <th scope="col">Safe<br>accuracy ↑</th>
-                <th scope="col">Unsafe<br>accuracy ↓</th>
-                <th scope="col">Balanced<br>accuracy ↑</th>
-                <th scope="col">Balanced<br>precision ↑</th>
-                <th scope="col">Balanced<br>recall ↑</th>
+                <th scope="col" rowspan="2">Model</th>
+                <th scope="colgroup" colspan="3">Quality <small>(safe concepts)</small></th>
+                <th scope="colgroup" colspan="3">Safety <small>(unsafe concepts)</small></th>
+                <th scope="colgroup" colspan="3">Balanced</th>
+              </tr>
+              <tr>
+                <th scope="col">Acc ↑</th><th scope="col">P ↑</th><th scope="col">R ↑</th>
+                <th scope="col">Acc ↓</th><th scope="col">P ↓</th><th scope="col">R ↓</th>
+                <th scope="col">Acc ↑</th><th scope="col">P ↑</th><th scope="col">R ↑</th>
               </tr>
             </thead>
             <tbody>
-              <tr><th scope="row">Safe</th><td>0.79</td><td class="best">0.00</td><td>0.88</td><td>0.53</td><td class="best">0.70</td></tr>
-              <tr><th scope="row">Full</th><td>0.83</td><td>0.56</td><td>0.58</td><td>0.31</td><td>0.30</td></tr>
-              <tr class="ours"><th scope="row">Pristine</th><td class="best">0.91</td><td class="best">0.00</td><td class="best">0.95</td><td class="best">0.57</td><td>0.68</td></tr>
+              <tr class="group"><th colspan="10" scope="rowgroup">MMJiT <span>(self attention)</span></th></tr>
+              <tr><th scope="row">Safe baseline</th><td>0.79</td><td>0.76</td><td>0.56</td><td class="best">0.00</td><td>0.60</td><td class="best">0.05</td><td>0.88</td><td>0.53</td><td class="best">0.70</td></tr>
+              <tr><th scope="row">Full baseline</th><td>0.83</td><td>0.69</td><td class="best">0.71</td><td>0.56</td><td>0.80</td><td>0.81</td><td>0.58</td><td>0.31</td><td>0.30</td></tr>
+              <tr class="ours"><th scope="row">Pristine <small>(safe branch)</small></th><td class="best">0.91</td><td class="best">0.77</td><td>0.60</td><td class="best">0.00</td><td class="best">0.54</td><td>0.22</td><td class="best">0.95</td><td class="best">0.57</td><td>0.68</td></tr>
+              <tr class="detached"><th scope="row">Pristine <small>(unsafe branch)</small></th><td>0.00</td><td>0.30</td><td>0.11</td><td>0.62</td><td>0.80</td><td>0.61</td><td>0.00</td><td>0.24</td><td>0.17</td></tr>
+              <tr class="group"><th colspan="10" scope="rowgroup">No prompt decomposition</th></tr>
+              <tr><th scope="row">AttentionSwap</th><td>0.44</td><td>0.76</td><td>0.61</td><td>0.01</td><td>0.62</td><td>0.15</td><td>0.61</td><td>0.51</td><td class="best">0.71</td></tr>
+              <tr><th scope="row">MLPSwap</th><td>0.85</td><td>0.75</td><td>0.63</td><td>0.01</td><td>0.63</td><td>0.26</td><td>0.91</td><td>0.50</td><td>0.68</td></tr>
+              <tr class="group"><th colspan="10" scope="rowgroup">Post-hoc unlearning</th></tr>
+              <tr><th scope="row">Pristine (Unlearn)</th><td>0.86</td><td>0.72</td><td>0.67</td><td class="best">0.00</td><td>0.73</td><td>0.54</td><td>0.93</td><td>0.40</td><td>0.55</td></tr>
             </tbody>
           </table>
         </div>
 
-        <p>Pristine improves safe-class accuracy while matching Safe’s reported unsafe-class accuracy. It leads on balanced accuracy and precision; Safe retains a small advantage in balanced recall.</p>
+        <p>The key comparison is the three main rows. Full retains the most unsafe concepts: its unsafe accuracy is 0.56. Safe brings that to 0.00, but its safe accuracy is 0.79. Pristine also reaches 0.00 unsafe accuracy while raising safe accuracy to 0.91. That produces the highest balanced accuracy (0.95) and precision (0.57).</p>
 
-        <h4>How much image quality is retained?</h4>
-        <p>On safe concepts, FID measures how closely generated images match the real image distribution, while VQAScore measures alignment with the full prompt.</p>
+        <p>The remaining rows show why the architecture matters. Activating the unsafe branch reverses the behavior: it restores unsafe generation and loses safe generation. AttentionSwap and MLPSwap isolate some behavior without prompt decomposition, but do not reach Pristine’s balanced accuracy and precision. Post-hoc Pristine Unlearn is competitive, yet still trails the pretrained factorization on all three balanced measures.</p>
 
-        <div class="table-wrap" role="region" aria-labelledby="imagenet-quality-caption" tabindex="0">
-          <table>
-            <caption id="imagenet-quality-caption">MMJiT generation quality on safe concepts. Lower FID and higher VQAScore are better. Results from <a href="https://arxiv.org/html/2610.14091v1#S3.SS1" target="_blank" rel="noopener noreferrer">Section 3.1</a>.</caption>
-            <thead><tr><th scope="col">Model</th><th scope="col">FID ↓</th><th scope="col">VQAScore ↑</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Safe</th><td>8.23</td><td>0.63</td></tr>
-              <tr><th scope="row">Full</th><td class="best">6.68</td><td class="best">0.79</td></tr>
-              <tr class="ours"><th scope="row">Pristine</th><td>7.32</td><td>0.75</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p>Pristine improves both measures over Safe and approaches Full. Suppression is not perfect under every kind of prompt: when unsafe concepts are described without naming them, unsafe-class accuracy is <strong>6.20%</strong> for Pristine versus <strong>40.21%</strong> for Full. These <a href="https://arxiv.org/html/2610.14091v1#S3.SS1" target="_blank" rel="noopener noreferrer">implicit-prompt results</a> complement the explicit-prompt evaluation above.</p>
+        <p>Balanced recall is the exception: AttentionSwap scores 0.71 and Safe scores 0.70, compared with 0.68 for Pristine. We report that rather than hiding it; the headline result is the broader safety–quality balance across all three metrics. Suppression is also tested with implicit prompts: unsafe accuracy is <strong>6.20%</strong> for Pristine versus <strong>40.21%</strong> for Full when the restricted class is described without being named.</p>
 
         <h3>Disentangled concepts</h3>
         <p>Pristine learns concepts in a disentangled way: the mode branch learns which object it is, and the shared branch learns everything else. So the model generates according to which branch is attached. With the safe branch, a gray fox comes out as a gray fox, while a garbage truck does not appear. With the unsafe branch, the pattern flips.</p>

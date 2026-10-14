@@ -326,11 +326,14 @@ caption { text-align: left; font-size: 0.88rem; color: var(--muted); padding-bot
 th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; white-space: normal; }
 thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); vertical-align: bottom; }
+thead th[colspan] { text-align: center; border-bottom: 0; }
+thead th small, tr.group span, table th small { font-size: 0.78em; font-weight: 400; }
 tbody th { font-weight: 400; }
 tr.group th { background: var(--panel); font-weight: 700; text-align: left; font-size: 0.82rem; }
 tr.ours td, tr.ours th { background: var(--pristine-bg); }
 td.best { font-weight: 700; }
 tr.detached td { color: var(--muted); }
+#imagenet .table-wrap table { min-width: 850px; }
 
 /* ---------- Interactive demos ---------- */
 
