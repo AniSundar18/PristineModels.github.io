@@ -378,7 +378,58 @@
 
       <section id="imagenet">
         <h2>ImageNet</h2>
-        <p>We test Pristine on ImageNet, treating canine classes (dogs, foxes, and wolves) as <span class="safe-t">safe</span> and every other class as <span class="unsafe-t">unsafe</span>. Quantitative results, baselines, and the full evaluation are in the paper.</p>
+        <p>We test Pristine on ImageNet using the <strong>MMJiT self-attention architecture</strong>. In this controlled experiment, the 131 canine classes (dogs, foxes, and wolves) are designated <span class="safe-t">safe</span> and the remaining 869 classes <span class="unsafe-t">unsafe</span>. Full trains on all images; Safe trains only on safe images; Pristine trains on both and then detaches its unsafe branch.</p>
+
+        <h3>Safety and quality, measured together</h3>
+        <p>For safe prompts, we want the requested concept to appear; for unsafe prompts, we want it suppressed. A classifier measures how often the requested class is generated. Safe-class accuracy should be high, while unsafe-class accuracy should be low.</p>
+
+        <p>Our <strong>balanced scores</strong> combine safe-concept performance with unsafe-concept suppression using the harmonic mean. A high score requires both. For a metric <var>M</var>:</p>
+
+        <div class="eq sm" role="math" aria-label="Balanced M equals the harmonic mean of M safe and one minus M unsafe">
+          Balanced <var>M</var> = H(<var>M</var><sub>safe</sub>, 1 − <var>M</var><sub>unsafe</sub>), &ensp; H(<var>a</var>, <var>b</var>) = 2<var>ab</var> / (<var>a</var> + <var>b</var>)
+        </div>
+
+        <p>We apply this to accuracy and to generative precision and recall, which measure image quality and diversity rather than classifier precision and recall.</p>
+
+        <div class="table-wrap" role="region" aria-labelledby="imagenet-balance-caption" tabindex="0">
+          <table>
+            <caption id="imagenet-balance-caption">MMJiT on ImageNet, Dog setting; explicit prompts. Pristine uses the safe branch with the unsafe branch detached. Values from <a href="https://arxiv.org/html/2610.14091v1#S3.T1" target="_blank" rel="noopener noreferrer">Table 1</a>.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Safe<br>accuracy ↑</th>
+                <th scope="col">Unsafe<br>accuracy ↓</th>
+                <th scope="col">Balanced<br>accuracy ↑</th>
+                <th scope="col">Balanced<br>precision ↑</th>
+                <th scope="col">Balanced<br>recall ↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Safe</th><td>0.79</td><td class="best">0.00</td><td>0.88</td><td>0.53</td><td class="best">0.70</td></tr>
+              <tr><th scope="row">Full</th><td>0.83</td><td>0.56</td><td>0.58</td><td>0.31</td><td>0.30</td></tr>
+              <tr class="ours"><th scope="row">Pristine</th><td class="best">0.91</td><td class="best">0.00</td><td class="best">0.95</td><td class="best">0.57</td><td>0.68</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Pristine improves safe-class accuracy while matching Safe’s reported unsafe-class accuracy. It leads on balanced accuracy and precision; Safe retains a small advantage in balanced recall.</p>
+
+        <h4>How much image quality is retained?</h4>
+        <p>On safe concepts, FID measures how closely generated images match the real image distribution, while VQAScore measures alignment with the full prompt.</p>
+
+        <div class="table-wrap" role="region" aria-labelledby="imagenet-quality-caption" tabindex="0">
+          <table>
+            <caption id="imagenet-quality-caption">MMJiT generation quality on safe concepts. Lower FID and higher VQAScore are better. Results from <a href="https://arxiv.org/html/2610.14091v1#S3.SS1" target="_blank" rel="noopener noreferrer">Section 3.1</a>.</caption>
+            <thead><tr><th scope="col">Model</th><th scope="col">FID ↓</th><th scope="col">VQAScore ↑</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Safe</th><td>8.23</td><td>0.63</td></tr>
+              <tr><th scope="row">Full</th><td class="best">6.68</td><td class="best">0.79</td></tr>
+              <tr class="ours"><th scope="row">Pristine</th><td>7.32</td><td>0.75</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Pristine improves both measures over Safe and approaches Full. Suppression is not perfect under every kind of prompt: when unsafe concepts are described without naming them, unsafe-class accuracy is <strong>6.20%</strong> for Pristine versus <strong>40.21%</strong> for Full. These <a href="https://arxiv.org/html/2610.14091v1#S3.SS1" target="_blank" rel="noopener noreferrer">implicit-prompt results</a> complement the explicit-prompt evaluation above.</p>
 
         <h3>Disentangled concepts</h3>
         <p>Pristine learns concepts in a disentangled way: the mode branch learns which object it is, and the shared branch learns everything else. So the model generates according to which branch is attached. With the safe branch, a gray fox comes out as a gray fox, while a garbage truck does not appear. With the unsafe branch, the pattern flips.</p>
