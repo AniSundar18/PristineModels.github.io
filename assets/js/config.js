@@ -2,7 +2,7 @@
 // Leave a value as "" and the button shows as "coming soon".
 // Only https:// URLs are accepted.
 window.PRISTINE_LINKS = {
-  paper: "",   // e.g. "https://arxiv.org/abs/XXXX.XXXXX"
+  paper: "https://arxiv.org/abs/2610.14091",
   code: "",    // e.g. "https://github.com/<org>/<repo>"
   pdf: ""      // optional direct PDF link
 };
